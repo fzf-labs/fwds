@@ -1,0 +1,42 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Editors
+*~
+.*.swp
+.#*
+\#*#
+
+# Folders
+_obj
+_test
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+*.exe
+*.test
+*.prof
+*.out
+coverage.txt
+cover.out
+.idea
+bin/
+
+# custom
+
+config/config.yaml
+config/local.yaml
+config/test.yaml
+config/pre.yaml
+config/prod.yaml
+
+deploy/docker/mysql/data
+
+storage/logs
+storage/download

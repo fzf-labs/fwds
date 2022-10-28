@@ -1,0 +1,108 @@
+# yaml 配置
+# 官方文档：https://docs.docker.com/compose/compose-file/
+version: "3.7"
+
+services:
+  app:
+    container_name: fwds-app
+    build: .
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+    links:
+      - mysql
+      - redis
+    ports:
+      - "8090:8090"
+    networks:
+      - fwds
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]   # 用于健康检查的指令
+      interval: 1m30s   # 间隔时间
+      timeout: 10s  # 超时时间
+      retries: 3    # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  mysql:
+    # 镜像名
+    image: mysql:8.0.21
+    # 容器名(以后的控制都通过这个)
+    container_name: fwds-mysql
+    # 重启策略
+    restart: always
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+      # root 密码
+      MYSQL_ROOT_PASSWORD: 123456
+      # 初始化数据库(后续的初始化sql会在这个库执行)
+      MYSQL_DATABASE: fwds
+      # 初始化用户(不能是root 会报错, 后续需要给新用户赋予权限)
+      MYSQL_USER: fwds
+      # 用户密码
+      MYSQL_PASSWORD: 123456
+      # 映射端口
+    ports:
+      - "3306:3306"
+    volumes:
+      # 数据挂载
+      - ./deploy/docker/mysql/data/:/var/lib/mysql/
+      # 配置挂载
+      - ./deploy/docker/mysql/conf/:/etc/mysql/conf.d/
+      # 初始化目录挂载
+      - ./deploy/docker/mysql/init/:/docker-entrypoint-initdb.d/
+    command:
+      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    networks:
+      - fwds
+
+  redis:
+    container_name: fwds-redis
+    image: redis:6.0.9-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - fwds
+    volumes:
+      - redis_data:/var/lib/redis
+
+  nginx:
+    container_name: fwds-nginx
+    image: nginx:1.17.10-alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./deploy/nginx/fwds.conf:/etc/nginx/conf.d/fwds.conf
+    command: nginx -g 'daemon off';
+
+  jaeger:
+    container_name: jaeger_container
+    image: jaegertracing/all-in-one:1.21
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+    networks:
+      - fwds
+networks:
+  fwds:
+    driver: "bridge"
+
+volumes:
+  mysql_data:
+  redis_data:

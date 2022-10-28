@@ -1,0 +1,33 @@
+definitions:
+  requests.LoginByEmail:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /v1/login/email:
+    post:
+      description: 仅限邮箱登录
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginByEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"message":"OK","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6Ik"}}'
+          schema:
+            type: string
+      summary: 用户登录接口
+      tags:
+      - 用户
+swagger: "2.0"
