@@ -20,9 +20,11 @@ export PATH        := $(shell go env GOPATH)/bin:$(PATH)
 export GOPATH      := $(shell go env GOPATH)
 export GO111MODULE := on
 
-# make   make all
-.PHONY: all
-all: lint test build
+# orm 模型文件生成
+.PHONY: gorm
+gorm:
+	@go run ./cmd/gormgen/main.go -f ./config/config.yaml
+	@go run ./cmd/sqldump/main.go -f ./config/config.yaml
 
 .PHONY: build
 # make build, Build the binary file

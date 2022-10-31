@@ -32,7 +32,7 @@ type ISmsCodeService interface {
 
 type SmsCodeService struct{}
 
-//生成短信验证码
+// 生成短信验证码
 func (s *SmsCodeService) GenSmsCode(phone int) (int, error) {
 	codeStr := fmt.Sprintf("%06v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000))
 	code, err := strconv.Atoi(codeStr)
@@ -64,7 +64,7 @@ func (s *SmsCodeService) CheckSmsCode(phone, code int) bool {
 func (s *SmsCodeService) GetSmsCode(phone int) (int, error) {
 	key := fmt.Sprintf(verifyCodeRedisKey, phone)
 	code, err := redis.Client.Get(context.Background(), key).Result()
-	if err == redis.ErrRedisNotFound {
+	if err == redis.ErrRedisNil {
 		return 0, nil
 	} else if err != nil {
 		return 0, errors.Wrap(err, "redis get sms code err")
