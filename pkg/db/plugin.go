@@ -46,7 +46,6 @@ var _ gorm.Plugin = &TracePlugin{}
 
 func before(db *gorm.DB) {
 	db.InstanceSet(startTime, time.Now())
-	return
 }
 
 func after(db *gorm.DB) {
@@ -75,5 +74,4 @@ func after(db *gorm.DB) {
 	sqlInfo.Rows = db.Statement.RowsAffected
 	sqlInfo.CostSeconds = time.Since(ts).Seconds()
 	telescope.GetTelescope(ctx).AppendSQL(sqlInfo)
-	return
 }

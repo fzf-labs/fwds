@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"context"
 	"fmt"
 	"fwds/internal/errno"
 	"fwds/internal/response"
@@ -15,7 +16,9 @@ func Lock() gin.HandlerFunc {
 			key := fmt.Sprintf("%s:%s", uid, c.Request.Method)
 			lock := redis.NewDefaultLock(key)
 			b, err := lock.Lock(c)
-			defer lock.Unlock(c)
+			defer func(lock *redis.Lock, ctx context.Context) {
+				_ = lock.Unlock(ctx)
+			}(lock, c)
 			if err != nil {
 				response.Json(c, errno.InternalServerError, nil)
 				return

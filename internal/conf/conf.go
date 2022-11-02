@@ -4,12 +4,10 @@ import "time"
 
 // Conf
 // @Description: 全局配置变量
-//
 var Conf = &Config{}
 
 // Config
 // @Description: 全局配置
-//
 type Config struct {
 	App  AppConfig  `json:"app"`
 	Http HttpConfig `json:"http"`
@@ -33,7 +31,6 @@ type Config struct {
 
 // AppConfig
 // @Description: 框架配置
-//
 type AppConfig struct {
 	Name      string `json:"name,omitempty"`
 	Env       string `json:"env,omitempty"`
@@ -48,7 +45,6 @@ type AppConfig struct {
 
 // HttpConfig
 // @Description: http服务配置
-//
 type HttpConfig struct {
 	Addr         string        `json:"addr,omitempty"`
 	ReadTimeout  time.Duration `json:"read_timeout,omitempty"`
@@ -57,7 +53,6 @@ type HttpConfig struct {
 
 // GrpcConfig
 // @Description: grpc服务配置
-//
 type GrpcConfig struct {
 	Addr         string        `json:"addr,omitempty"`
 	ReadTimeout  time.Duration `json:"read_timeout,omitempty"`
@@ -66,7 +61,6 @@ type GrpcConfig struct {
 
 // LogConfig
 // @Description: 日志配置文件
-//
 type LogConfig struct {
 	Name              string `json:"name,omitempty"`
 	Development       bool   `json:"development,omitempty"`
@@ -99,7 +93,6 @@ type MysqlConfigs map[string]MysqlConfig
 
 // MysqlConfig
 // @Description: mysql配置
-//
 type MysqlConfig struct {
 	Name            string        `json:"name,omitempty"`
 	Addr            string        `json:"addr,omitempty"`
@@ -113,7 +106,6 @@ type MysqlConfig struct {
 
 // RedisConfig
 // @Description: redis 配置
-//
 type RedisConfig struct {
 	Addr         string        `json:"addr,omitempty"`
 	Password     string        `json:"password,omitempty"`
@@ -128,7 +120,6 @@ type RedisConfig struct {
 
 // EmailConfig
 // @Description: 邮件配置
-//
 type EmailConfig struct {
 	Host      string `json:"host,omitempty"`
 	Port      int    `json:"port,omitempty"`
@@ -142,16 +133,14 @@ type EmailConfig struct {
 
 // TraceConfig
 // @Description: 链路追踪配置
-//
 type TraceConfig struct {
 	ServiceName string `json:"service_name,omitempty"`
-	open        int    `json:"open,omitempty"`
+	Open        int    `json:"open,omitempty"`
 	TraceAgent  string `json:"trace_agent,omitempty"`
 }
 
 // JaegerConfig
 // @Description: 链路追踪Jaeger配置
-//
 type JaegerConfig struct {
 	SamplingServerURL      string  `json:"sampling_server_url,omitempty"`       // Set the sampling server url
 	SamplingType           string  `json:"sampling_type,omitempty"`             // Set the sampling type
@@ -167,7 +156,6 @@ type JaegerConfig struct {
 
 // OssConfig
 // @Description: 对象存储
-//
 type OssConfig struct {
 	AliYun AliYunOssConfig `json:"ali_yun"`
 }
@@ -181,7 +169,6 @@ type AliYunOssConfig struct {
 
 // MqConfig
 // @Description: 消息队列
-//
 type MqConfig struct {
 	Switch      bool
 	Use         string

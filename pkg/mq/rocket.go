@@ -160,6 +160,8 @@ func (r *Rocket) do(b *Business, handle Handle) {
 		log.SugaredLogger.Errorf("rocket mq Start err:%v", err)
 		panic(err)
 	}
-	defer c.Shutdown()
+	defer func(c rocketmq.PushConsumer) {
+		_ = c.Shutdown()
+	}(c)
 	select {}
 }

@@ -21,8 +21,8 @@ func (a *AliYun) Send(phone []string, templateParam interface{}) error {
 }
 
 type AliConfig struct {
-	accessKeyId  string
-	accessSecret string
+	AccessKeyId  string
+	AccessSecret string
 	RegionId     string
 }
 
@@ -36,9 +36,9 @@ func NewAliSms(AliConfig AliConfig) *AliSms {
 	}
 }
 
-func (a *AliSms) send(PhoneNumbers, SignName, TemplateCode, TemplateParam string) error {
+func (a *AliSms) Send(PhoneNumbers, SignName, TemplateCode, TemplateParam string) error {
 	//客户端
-	client, err := dysmsapi.NewClientWithAccessKey(a.config.RegionId, a.config.accessKeyId, a.config.accessSecret)
+	client, err := dysmsapi.NewClientWithAccessKey(a.config.RegionId, a.config.AccessKeyId, a.config.AccessSecret)
 	if err != nil {
 		return errors.Wrapf(err, "ali sms client init fail")
 	}

@@ -72,14 +72,14 @@ func SendLink(chat, title, text, messageUrl, picUrl string) error {
 	return send(chat, req)
 }
 
-//发送消息
+// 发送消息
 func send(chat string, req interface{}) error {
 	business, ok := conf.Conf.DingTalk[chat]
 	if !ok {
 		return errors.New("未配置的钉钉群")
 	}
 	jsonReq, _ := json.Marshal(req)
-	timestamp := util.Time.Now().TimestampWithMillisecond()
+	timestamp := util.Time.Now().TimestampMilli()
 	sign := bcrypt.HmacSha256(fmt.Sprintf("%d\n%s", timestamp, business.Secret), business.Secret)
 	url := fmt.Sprintf("%s&timestamp=%d&sign=%s", business.Url, timestamp, sign)
 	_, err := httpclient.PostJSON(url, jsonReq)

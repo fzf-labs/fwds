@@ -96,7 +96,10 @@ func (f *file) ReadLimit(str string, len int64) string {
 	var res string
 	for limitReader.N > 0 {
 		tmp := make([]byte, 1)
-		limitReader.Read(tmp)
+		_, err := limitReader.Read(tmp)
+		if err != nil {
+			return ""
+		}
 		res += string(tmp)
 	}
 	return res
@@ -111,7 +114,7 @@ func (f *file) ReadFile(dir string) (string, error) {
 	return string(data), nil
 }
 
-//ReadFileLine  按行读取文件
+// ReadFileLine  按行读取文件
 func (f *file) ReadFileLine(dir string) (map[int]string, error) {
 	file, err := os.OpenFile(dir, os.O_RDWR, 0666)
 	if err != nil {

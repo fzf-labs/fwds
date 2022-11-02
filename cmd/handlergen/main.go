@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"go/token"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -31,7 +30,7 @@ func main() {
 		log.Fatalf("parsing package: %s: %s\n", filePath, err)
 	}
 
-	files, _ := ioutil.ReadDir(filePath)
+	files, _ := os.ReadDir(filePath)
 	if len(files) > 1 {
 		log.Fatalf("请先确保 %s 目录中，有且仅有 handler.go 一个文件。", filePath)
 	}
@@ -98,8 +97,14 @@ func main() {
 					funcContent += fmt.Sprintf("%s \n", v.Decorations().Start.All()[2])
 					funcContent += fmt.Sprintf("func (h *handler) %s() gin.HandlerFunc { \n return func(c *gin.Context) {\n\n}}", v.Names[0].String())
 
-					funcFile.WriteString(funcContent)
-					funcFile.Close()
+					_, err = funcFile.WriteString(funcContent)
+					if err != nil {
+						return false
+					}
+					err = funcFile.Close()
+					if err != nil {
+						return false
+					}
 				}
 			}
 		}

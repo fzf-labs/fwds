@@ -9,11 +9,9 @@ import (
 	"github.com/uber/jaeger-client-go"
 )
 
-//
 // Trace
 // @Description: 链路跟踪
 // @return gin.HandlerFunc
-//
 func Trace() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tracer := opentracing.GlobalTracer()
@@ -36,9 +34,11 @@ func Trace() gin.HandlerFunc {
 		var spanContext = span.Context()
 		switch spanContext.(type) {
 		case jaeger.SpanContext:
-			jaegerContext := spanContext.(jaeger.SpanContext)
-			traceID = jaegerContext.TraceID().String()
-			spanID = jaegerContext.SpanID().String()
+			jaegerContext, ok := spanContext.(jaeger.SpanContext)
+			if ok {
+				traceID = jaegerContext.TraceID().String()
+				spanID = jaegerContext.SpanID().String()
+			}
 		}
 		c.Set("X-Trace-ID", traceID)
 		c.Set("X-Span-ID", spanID)

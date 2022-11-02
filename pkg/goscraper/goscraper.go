@@ -111,7 +111,10 @@ func (scraper *Scraper) toFragmentUrl() error {
 func (scraper *Scraper) getDocument() (*Document, error) {
 	scraper.MaxRedirect -= 1
 	if strings.Contains(scraper.Url.String(), "#!") {
-		scraper.toFragmentUrl()
+		err := scraper.toFragmentUrl()
+		if err != nil {
+			return nil, err
+		}
 	}
 	if strings.Contains(scraper.Url.String(), EscapedFragment) {
 		scraper.EscapedFragmentUrl = scraper.Url
@@ -308,7 +311,10 @@ func (scraper *Scraper) parseDocument(doc *Document) error {
 		}
 
 		if hasFragment && headPassed && scraper.MaxRedirect > 0 {
-			scraper.toFragmentUrl()
+			err := scraper.toFragmentUrl()
+			if err != nil {
+				return err
+			}
 			fdoc, err := scraper.getDocument()
 			if err != nil {
 				return err

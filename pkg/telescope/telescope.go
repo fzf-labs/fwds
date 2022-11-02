@@ -83,7 +83,7 @@ type Response struct {
 func New(id string) *Telescope {
 	if id == "" {
 		buf := make([]byte, 10)
-		io.ReadFull(rand.Reader, buf)
+		_, _ = io.ReadFull(rand.Reader, buf)
 		id = hex.EncodeToString(buf)
 	}
 

@@ -13,7 +13,7 @@ import (
 	j "github.com/dgrijalva/jwt-go"
 )
 
-//获取jwt的secret 在配置文件中
+// 获取jwt的secret 在配置文件中
 type JwtConfig struct {
 	JwtSecret   []byte
 	JwtDuration time.Duration
@@ -43,7 +43,6 @@ type Context struct {
 
 // CustomClaims
 // @Description:
-//
 type CustomClaims struct {
 	Context
 	j.StandardClaims
@@ -128,7 +127,7 @@ func (jc *JwtConfig) AddBlack(tokenString string) error {
 	//获取key
 	key := cachekey.JwtBlack.BuildCacheKey(c.UUID)
 	//token的过期时间-当前的时间差
-	expiresAt := time.Now().Sub(time.Unix(c.ExpiresAt, 0))
+	expiresAt := time.Since(time.Unix(c.ExpiresAt, 0))
 	err = r.Set(context.Background(), key, c.NotBefore, expiresAt).Err()
 	if err != nil {
 		return TokenAddBlackErr

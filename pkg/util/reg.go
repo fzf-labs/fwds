@@ -27,25 +27,26 @@ func (ur *reg) RegexpReplace(reg, src, temp string) string {
 
 // RegexpPhoneFormat 手机验证
 // Phone format validation.
-// 1. China Mobile:
-//    134, 135, 136, 137, 138, 139, 150, 151, 152, 157, 158, 159, 182, 183, 184, 187, 188,
-//    178(4G), 147(Net)；
-//    172
 //
-// 2. China Unicom:
-//    130, 131, 132, 155, 156, 185, 186 ,176(4G), 145(Net), 175
+//  1. China Mobile:
+//     134, 135, 136, 137, 138, 139, 150, 151, 152, 157, 158, 159, 182, 183, 184, 187, 188,
+//     178(4G), 147(Net)；
+//     172
 //
-// 3. China Telecom:
-//    133, 153, 180, 181, 189, 177(4G)
+//  2. China Unicom:
+//     130, 131, 132, 155, 156, 185, 186 ,176(4G), 145(Net), 175
 //
-// 4. Satelite:
-//    1349
+//  3. China Telecom:
+//     133, 153, 180, 181, 189, 177(4G)
 //
-// 5. Virtual:
-//    170, 173
+//  4. Satelite:
+//     1349
 //
-// 6. 2018:
-//    16x, 19x
+//  5. Virtual:
+//     170, 173
+//
+//  6. 2018:
+//     16x, 19x
 func (ur *reg) RegexpPhoneFormat(phone string) bool {
 	regular := `^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^16[\d]{9}$|^17[0,2,3,5,6,7,8]{1}\d{8}$|^18[\d]{9}$|^19[\d]{9}$`
 
@@ -80,6 +81,7 @@ func (ur *reg) RegexpPostalCodeFormat(postalCode string) bool {
 	return reg.MatchString(postalCode)
 }
 
+// CheckResidentId
 // 身份证ID校验
 //
 // xxxxxx yyyy MM dd 375 0  十八位
@@ -100,7 +102,7 @@ func (ur *reg) RegexpPostalCodeFormat(postalCode string) bool {
 //
 // 总：
 // (^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)
-func (ur *reg) checkResidentId(id string) bool {
+func (ur *reg) CheckResidentId(id string) bool {
 	id = strings.ToUpper(strings.TrimSpace(id))
 	if len(id) != 18 {
 		return false
