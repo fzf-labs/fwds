@@ -4,14 +4,16 @@ import (
 	"context"
 	"fmt"
 	"fwds/internal/conf"
-	"fwds/internal/job"
 	"fwds/internal/router"
+	"fwds/internal/task"
 	"fwds/pkg/browser"
 	"fwds/pkg/color"
 	"fwds/pkg/config"
+	"fwds/pkg/db"
 	"fwds/pkg/email"
 	"fwds/pkg/log"
 	"fwds/pkg/mq"
+	"fwds/pkg/redis"
 	"fwds/pkg/trace/jaeger"
 	"fwds/pkg/valid"
 	"github.com/gin-gonic/gin"
@@ -48,9 +50,9 @@ func main() {
 	//日志初始化
 	log.Init(conf.Conf)
 	//数据库初始化
-	//db.Init(conf.Conf.Mysql)
+	db.Init(conf.Conf.Mysql)
 	//redis初始化
-	//redis.Init(&conf.Conf.Redis)
+	redis.Init(&conf.Conf.Redis)
 	//链路跟踪初始化
 	jaeger.Init(conf.Conf)
 	// Set gin mode.
@@ -58,7 +60,7 @@ func main() {
 	// 邮箱客户端 初始化
 	email.Init(&conf.Conf.Email)
 	// 定时任务初始化
-	job.Init()
+	task.Init()
 	//nsq 初始化
 	mq.Init()
 	//

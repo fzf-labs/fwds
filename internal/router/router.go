@@ -1,14 +1,14 @@
 package router
 
 import (
-	"fwds/internal/api/http"
 	"fwds/internal/conf"
 	"fwds/internal/constants"
+	"fwds/internal/handler"
 	"fwds/internal/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
@@ -26,8 +26,8 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.Use(mw...)
 
 	// 404 Handler.
-	g.NoRoute(http.RouteNotFound)
-	g.NoMethod(http.MethodNotFound)
+	g.NoRoute(handler.RouteNotFound)
+	g.NoMethod(handler.MethodNotFound)
 
 	// 静态资源，主要是图片
 	g.Static("/static", "./static")
@@ -45,13 +45,13 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	// pprof.Register(g)
 
 	// HealthCheck 健康检查路由
-	g.GET("/health", http.HealthCheck)
+	g.GET("/health", handler.HealthCheck)
 	// metrics router 可以在 prometheus 中进行监控
 	g.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	//根路由
-	g.GET("/", http.Home)
+	g.GET("/", handler.Home)
 	//代码版本
-	g.GET("/version", http.Version)
+	g.GET("/version", handler.Version)
 	return g
 }

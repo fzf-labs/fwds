@@ -25,7 +25,7 @@ func init() {
 
 func main() {
 	fs := token.NewFileSet()
-	filePath := fmt.Sprintf("./internal/api/http/v1/%s", handlerName)
+	filePath := fmt.Sprintf("./internal/handler/v1/%s", handlerName)
 	parsedFile, err := decorator.ParseFile(fs, filePath+"/handler.go", nil, 0)
 	if err != nil {
 		log.Fatalf("parsing package: %s: %s\n", filePath, err)
@@ -59,7 +59,7 @@ func main() {
 						continue
 					}
 
-					filepath := "./internal/api/http/v1/" + handlerName
+					filepath := "./internal/handler/v1/" + handlerName
 					filename := fmt.Sprintf("%s/func_%s.go", filepath, strings.ToLower(v.Names[0].String()))
 					funcFile, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0766)
 					if err != nil {
