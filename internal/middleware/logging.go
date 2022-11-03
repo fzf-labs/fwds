@@ -68,7 +68,7 @@ func Logging() gin.HandlerFunc {
 		var responseMsg string
 		var responseData interface{}
 		if responseBody != "" {
-			var jsonResponse response.JsonResponse
+			var jsonResponse response.HttpResponse
 			err := json.Unmarshal([]byte(responseBody), &jsonResponse)
 			if err == nil {
 				responseCode = jsonResponse.Code

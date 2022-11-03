@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"fwds/internal/errno"
+	"fwds/internal/errorx"
 	"fwds/internal/response"
 	"fwds/pkg/redis"
 	"github.com/gin-gonic/gin"
@@ -20,11 +20,11 @@ func Lock() gin.HandlerFunc {
 				_ = lock.Unlock(ctx)
 			}(lock, c)
 			if err != nil {
-				response.Json(c, errno.InternalServerError, nil)
+				response.Json(c, errorx.InternalServerError, nil)
 				return
 			}
 			if !b {
-				response.Json(c, errno.ErrRequestFrequencyIsTooFast, nil)
+				response.Json(c, errorx.ErrRequestFrequencyIsTooFast, nil)
 			}
 		}
 		c.Next()

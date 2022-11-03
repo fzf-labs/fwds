@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"fmt"
+	"fwds/internal/errorx"
 
-	"fwds/internal/errno"
 	"fwds/internal/response"
 	"fwds/pkg/jwt"
 
@@ -17,7 +17,7 @@ func JwtMiddleware() gin.HandlerFunc {
 		authorization := c.Request.Header.Get("Authorization")
 		//未获取到token
 		if len(authorization) == 0 {
-			response.Json(c, errno.ErrTokenNotRequest, nil)
+			response.Json(c, errorx.ErrTokenNotRequest, nil)
 			c.Abort()
 			return
 		}
@@ -25,21 +25,21 @@ func JwtMiddleware() gin.HandlerFunc {
 		var token string
 		_, err := fmt.Scanf(authorization, "Bearer %s", &token)
 		if err != nil {
-			response.Json(c, errno.ErrTokenFormat, nil)
+			response.Json(c, errorx.ErrTokenFormat, nil)
 			c.Abort()
 			return
 		}
 		jc := jwt.NewJC()
 		customClaims, err := jc.ParseToken(token)
 		if err != nil {
-			response.Json(c, errno.ErrTokenInvalid, nil)
+			response.Json(c, errorx.ErrTokenInvalid, nil)
 			c.Abort()
 			return
 		}
 		//校验是否在黑名单中
 		err = jc.CheckBlack(customClaims)
 		if err != nil {
-			response.Json(c, errno.ErrTokenInvalidBlack, nil)
+			response.Json(c, errorx.ErrTokenInvalid, nil)
 			c.Abort()
 			return
 		}

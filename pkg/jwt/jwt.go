@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fwds/internal/conf"
+	"fwds/internal/constants"
 	"strconv"
 	"time"
 
-	"fwds/internal/constants/cachekey"
 	"fwds/pkg/redis"
 
 	j "github.com/dgrijalva/jwt-go"
@@ -125,7 +125,7 @@ func (jc *JwtConfig) AddBlack(tokenString string) error {
 	//获取redis客户端
 	r := redis.Client
 	//获取key
-	key := cachekey.JwtBlack.BuildCacheKey(c.UUID)
+	key := constants.JwtBlack.BuildCacheKey(c.UUID)
 	//token的过期时间-当前的时间差
 	expiresAt := time.Since(time.Unix(c.ExpiresAt, 0))
 	err = r.Set(context.Background(), key, c.NotBefore, expiresAt).Err()
@@ -140,7 +140,7 @@ func (jc *JwtConfig) CheckBlack(c *CustomClaims) error {
 	//获取redis客户端
 	r := redis.Client
 	//获取key
-	key := cachekey.JwtBlack.BuildCacheKey(c.UUID)
+	key := constants.JwtBlack.BuildCacheKey(c.UUID)
 	//获取时间
 	result, err := r.Get(context.Background(), key).Result()
 	if err != nil {

@@ -3,7 +3,6 @@ package ginutil
 import (
 	"bytes"
 	"encoding/json"
-	"fwds/internal/constants"
 	"fwds/pkg/conv"
 	g "github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -87,15 +86,6 @@ func RequestAllToJsonWithBody(c *g.Context) (json.RawMessage, error) {
 	}
 	c.Request.Body = io.NopCloser(bytes.NewBuffer(data)) // 重新设置
 	return ret, nil
-}
-
-// Lang 获取语言
-func Lang(c *g.Context) string {
-	language := c.GetHeader("Accept-Language")
-	if language != "" {
-		return strings.ToLower(language)
-	}
-	return constants.ZhCN
 }
 
 func GetAppKey(c *g.Context) string {

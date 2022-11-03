@@ -33,7 +33,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.Static("/static", "./static")
 
 	// swagger http docs
-	if conf.Conf.App.Env == constants.EnvLocal || conf.Conf.App.Env == constants.EnvDev {
+	if conf.Conf.App.Env == constants.DevMode || conf.Conf.App.Env == constants.TestMode {
 		g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 

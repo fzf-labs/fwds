@@ -3,10 +3,10 @@ package middleware
 import (
 	"fmt"
 	"fwds/internal/conf"
+	"fwds/internal/errorx"
 	"fwds/pkg/notify"
 	"runtime/debug"
 
-	"fwds/internal/errno"
 	"fwds/internal/response"
 	"fwds/pkg/email"
 	"fwds/pkg/log"
@@ -28,7 +28,7 @@ func PanicNotify() gin.HandlerFunc {
 					notify.WithDingTalk(dingTalkMsg),
 					notify.WithEmail(subject, body),
 				)
-				response.Json(c, errno.InternalServerError, nil)
+				response.Json(c, errorx.InternalServerError, nil)
 				c.Abort()
 				return
 			}
