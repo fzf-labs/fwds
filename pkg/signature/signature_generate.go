@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"fwds/pkg/util"
+	"fwds/pkg/util/timeutil"
 	"strconv"
 	"strings"
 
@@ -36,7 +36,7 @@ func (s *signature) Generate(path string, method string, params json.RawMessage)
 	}
 
 	// Date
-	timeStamp = strconv.FormatInt(util.Time.NowUnix(), 10)
+	timeStamp = strconv.FormatInt(timeutil.NowUnix(), 10)
 	// 加密字符串规则
 	buffer := bytes.NewBuffer(nil)
 	buffer.WriteString(path)

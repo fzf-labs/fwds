@@ -1,11 +1,10 @@
 package db
 
 import (
+	"fwds/pkg/util/timeutil"
 	"time"
 
 	"fwds/pkg/telescope"
-	"fwds/pkg/util"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	gormUtils "gorm.io/gorm/utils"
@@ -68,7 +67,7 @@ func after(db *gorm.DB) {
 	sql := db.Dialector.Explain(db.Statement.SQL.String(), db.Statement.Vars...)
 
 	sqlInfo := new(telescope.SQL)
-	sqlInfo.Timestamp = util.Time.NowMicrosecondString()
+	sqlInfo.Timestamp = timeutil.NowMicrosecondString()
 	sqlInfo.SQL = sql
 	sqlInfo.Stack = gormUtils.FileWithLineNum()
 	sqlInfo.Rows = db.Statement.RowsAffected

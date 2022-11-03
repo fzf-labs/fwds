@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fwds/pkg/util"
+	"fwds/pkg/util/iputil"
 	"fwds/pkg/version"
 	nh "net/http"
 	"os"
@@ -43,11 +43,10 @@ func Home(c *gin.Context) {
 	c.JSON(nh.StatusOK, gin.H{
 		"status":    "UP",
 		"hostname":  getHostname(),
-		"client_ip": util.Ip.ClientIP(c.Request),
+		"client_ip": iputil.ClientIP(c.Request),
 	})
 }
 
 func Version(c *gin.Context) {
 	c.JSON(nh.StatusOK, version.Get())
-	return
 }

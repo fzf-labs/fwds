@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"fwds/internal/conf"
-	"fwds/pkg/util"
+	"fwds/pkg/util/stuutil"
 
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
@@ -26,7 +26,7 @@ func (t *tencentCloud) GetBusiness(key string) Sms {
 }
 
 func (t *tencentCloud) Send(phone []string, templateParam interface{}) error {
-	_, v, _ := util.Stu.StructToSliceAndMap(templateParam)
+	_, v, _ := stuutil.StructToSliceAndMap(templateParam)
 	/* 必要步骤：
 	 * 实例化一个认证对象，入参需要传入腾讯云账户密钥对secretId，secretKey。
 	 * 这里采用的是从环境变量读取的方式，需要在环境变量中先设置这两个值。

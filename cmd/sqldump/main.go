@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"fwds/pkg/conversion"
-	"fwds/pkg/util"
+	"fwds/pkg/conv"
+	"fwds/pkg/util/fileutil"
+	"fwds/pkg/util/strutil"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -43,9 +44,9 @@ func main() {
 			str += res.CreateTable + ";\n"
 		}
 	}
-	target, _ := util.Str.SubstrTarget(*FileName, "/app", "left", false)
+	target, _ := strutil.SubstrTarget(*FileName, "/app", "left", false)
 	p := target + "/storage/sql/" + database + ".sql"
-	err := util.File.WriteWithIo(p, str)
+	err := fileutil.WriteContentAppend(p, str)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -76,5 +77,5 @@ func GetDsn(fileName string) string {
 	if err := config.ReadInConfig(); err != nil {
 		panic(err)
 	}
-	return conversion.String(config.Get("Mysql.Default.DSN"))
+	return conv.String(config.Get("Mysql.Default.DSN"))
 }

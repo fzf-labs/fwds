@@ -6,7 +6,7 @@ import (
 	"fwds/internal/conf"
 	"fwds/pkg/bcrypt"
 	"fwds/pkg/httpclient"
-	"fwds/pkg/util"
+	"fwds/pkg/util/timeutil"
 	"github.com/pkg/errors"
 )
 
@@ -79,9 +79,9 @@ func send(chat string, req interface{}) error {
 		return errors.New("未配置的钉钉群")
 	}
 	jsonReq, _ := json.Marshal(req)
-	timestamp := util.Time.Now().TimestampMilli()
-	sign := bcrypt.HmacSha256(fmt.Sprintf("%d\n%s", timestamp, business.Secret), business.Secret)
-	url := fmt.Sprintf("%s&timestamp=%d&sign=%s", business.Url, timestamp, sign)
+	timestamp := timeutil.NowMillisecondString()
+	sign := bcrypt.HmacSha256(fmt.Sprintf("%s\n%s", timestamp, business.Secret), business.Secret)
+	url := fmt.Sprintf("%s&timestamp=%s&sign=%s", business.Url, timestamp, sign)
 	_, err := httpclient.PostJSON(url, jsonReq)
 	if err != nil {
 		return err

@@ -59,5 +59,4 @@ func InitByEtcd() {
 	if err != nil { // Handle errors reading the config file
 		log.Fatalf("Fatal error config file: %s \n", err)
 	}
-	return
 }

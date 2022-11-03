@@ -2,11 +2,10 @@ package sign
 
 import (
 	"fmt"
+	"fwds/pkg/util/strutil"
 	"net/url"
 	"strings"
 	"time"
-
-	"fwds/pkg/util"
 )
 
 // Verifier define struct
@@ -70,7 +69,7 @@ func (v *Verifier) MustStrings(key string) []string {
 
 // MustInt64 获取Int64值
 func (v *Verifier) MustInt64(key string) int64 {
-	n, _ := util.Str.StringToInt64(v.MustString(key))
+	n, _ := strutil.StringToInt64(v.MustString(key))
 	return n
 }
 

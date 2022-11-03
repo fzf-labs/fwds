@@ -2,12 +2,11 @@ package debug
 
 import (
 	"fmt"
+	"fwds/pkg/util/timeutil"
 	"time"
 
 	"fwds/pkg/color"
 	"fwds/pkg/telescope"
-	"fwds/pkg/util"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,7 +36,7 @@ func Println(key string, value interface{}, options ...Option) {
 	defer func() {
 		if opt.Telescope != nil {
 			opt.Telescope.AppendDebug(&telescope.Debug{
-				Timestamp:   util.Time.NowMicrosecondString(),
+				Timestamp:   timeutil.NowMicrosecondString(),
 				Key:         key,
 				Value:       value,
 				CostSeconds: time.Since(ts).Seconds(),

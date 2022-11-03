@@ -6,8 +6,8 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"fwds/pkg/conversion"
-	"fwds/pkg/util"
+	"fwds/pkg/conv"
+	"fwds/pkg/util/timeutil"
 	"strings"
 	"time"
 
@@ -30,7 +30,7 @@ func (s *signature) Verify(path string, method string, params json.RawMessage, s
 		err = errors.New("请求方法错误")
 		return
 	}
-	seconds := util.Time.Now().DiffAbsInSeconds(util.Time.CreateFromTimestamp(conversion.Int64(timeStamp)))
+	seconds := timeutil.Now().DiffAbsInSeconds(timeutil.Carbon().CreateFromTimestamp(conv.Int64(timeStamp)))
 	if seconds > int64(s.ttl/time.Second) {
 		err = errors.Errorf("接口超时,限时:%v", s.ttl)
 		return

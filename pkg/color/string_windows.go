@@ -18,12 +18,12 @@ func RandomColor() string {
 
 // Yellow ...
 func Yellow(msg string) string {
-	return fmt.Sprintf("%s", msg)
+	return msg
 }
 
 // Red ...
 func Red(msg string) string {
-	return fmt.Sprintf("%s", msg)
+	return msg
 }
 
 // Redf ...
@@ -33,12 +33,12 @@ func Redf(msg string, arg interface{}) string {
 
 // Blue ...
 func Blue(msg string) string {
-	return fmt.Sprintf("%s", msg)
+	return msg
 }
 
 // Green ...
 func Green(msg string) string {
-	return fmt.Sprintf("%s", msg)
+	return msg
 }
 
 // Greenf ...

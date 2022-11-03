@@ -1,5 +1,4 @@
 //go:build darwin
-// +build darwin
 
 package color
 
@@ -11,37 +10,37 @@ import (
 
 var _ = RandomColor()
 
-// RandomColor generates a random color.
+// RandomColor 生成随机颜色。
 func RandomColor() string {
 	return fmt.Sprintf("#%s", strconv.FormatInt(int64(rand.Intn(16777216)), 16))
 }
 
-// Yellow ...
+// Yellow 黄色
 func Yellow(msg string) string {
 	return fmt.Sprintf("\x1b[33m%s\x1b[0m", msg)
 }
 
-// Red ...
+// Red 红色
 func Red(msg string) string {
 	return fmt.Sprintf("\x1b[31m%s\x1b[0m", msg)
 }
 
-// Redf ...
+// Redf 红色
 func Redf(msg string, arg interface{}) string {
 	return fmt.Sprintf("\x1b[31m%s\x1b[0m %+v\n", msg, arg)
 }
 
-// Blue ...
+// Blue 蓝色
 func Blue(msg string) string {
 	return fmt.Sprintf("\x1b[34m%s\x1b[0m", msg)
 }
 
-// Green ...
+// Green 绿色
 func Green(msg string) string {
 	return fmt.Sprintf("\x1b[32m%s\x1b[0m", msg)
 }
 
-// Greenf ...
+// Greenf 绿色
 func Greenf(msg string, arg interface{}) string {
 	return fmt.Sprintf("\x1b[32m%s\x1b[0m %+v\n", msg, arg)
 }

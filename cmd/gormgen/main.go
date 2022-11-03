@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"fwds/pkg/conversion"
+	"fwds/pkg/conv"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
@@ -48,7 +48,7 @@ func GetDsn(fileName string) string {
 	if err := config.ReadInConfig(); err != nil {
 		panic(err)
 	}
-	return conversion.String(config.Get("Mysql.Default.DSN"))
+	return conv.String(config.Get("Mysql.Default.DSN"))
 }
 
 func ConnectDB(dsn string) *gorm.DB {

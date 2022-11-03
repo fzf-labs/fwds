@@ -1,9 +1,8 @@
 package valid
 
 import (
+	"fwds/pkg/util/validutil"
 	"time"
-
-	"fwds/pkg/util"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -32,7 +31,7 @@ func RequiredIf(fl validator.FieldLevel) bool {
 // Phone 校验是否是手机号
 func Phone(fl validator.FieldLevel) bool {
 	if phone, ok := fl.Field().Interface().(string); ok {
-		return util.Reg.RegexpPhoneFormat(phone)
+		return validutil.IsPhone(phone)
 	}
 	return false
 }
@@ -61,7 +60,7 @@ func DateLt(fl validator.FieldLevel) bool {
 	return true
 }
 
-//校验银行卡
+// 校验银行卡
 func CheckBankCard(s string) bool {
 	return checkLuHn(s)
 }

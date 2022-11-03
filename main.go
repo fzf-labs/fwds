@@ -19,7 +19,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
-	"github.com/pyroscope-io/pyroscope/pkg/agent/profiler"
 	"github.com/spf13/pflag"
 	"net/http"
 	"os"
@@ -63,8 +62,6 @@ func main() {
 	task.Init()
 	//nsq 初始化
 	mq.Init()
-	//
-	Profiler()
 	// 服务启动信息打印
 	ServiceStartupInformationPrinting(conf.Conf)
 	// http 服务
@@ -83,15 +80,6 @@ func ServiceStartupInformationPrinting(cfg *conf.Config) {
 	if cfg.App.Env == "local" {
 		_ = browser.Open(intranet)
 	}
-}
-
-func pprof(cfg *conf.AppConfig) {
-	go func() {
-		fmt.Printf("Listening and serving PProf HTTP on %s\n", cfg.PprofPort)
-		if err := http.ListenAndServe(cfg.PprofPort, http.DefaultServeMux); err != nil && err != http.ErrServerClosed {
-			log.Logger.Fatal("listen ListenAndServe for PProf, err: " + err.Error())
-		}
-	}()
 }
 
 func HttpService(cfg *conf.Config) {
@@ -140,25 +128,4 @@ func gracefulStop(srv *http.Server) {
 	default:
 	}
 	log.Logger.Info("Server exiting")
-}
-
-func Profiler() {
-	profiler.Start(profiler.Config{
-		ApplicationName: conf.Conf.App.Name,
-
-		// replace this with the address of pyroscope server
-		ServerAddress: "http://127.0.0.1:4040",
-
-		// by default all profilers are enabled,
-		// but you can select the ones you want to use:
-		ProfileTypes: []profiler.ProfileType{
-			profiler.ProfileCPU,
-			profiler.ProfileAllocObjects,
-			profiler.ProfileAllocSpace,
-			profiler.ProfileInuseObjects,
-			profiler.ProfileInuseSpace,
-		},
-	})
-
-	// your code goes here
 }

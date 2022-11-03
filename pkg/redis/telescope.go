@@ -2,10 +2,9 @@ package redis
 
 import (
 	"context"
+	"fwds/pkg/util/timeutil"
 
 	tel "fwds/pkg/telescope"
-	"fwds/pkg/util"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 )
@@ -29,7 +28,7 @@ func (t *telescope) AfterProcess(ctx context.Context, cmd redis.Cmder) error {
 	}
 	cmd.Args()
 	r := tel.Redis{
-		Timestamp: util.Time.NowMicrosecondString(),
+		Timestamp: timeutil.NowMicrosecondString(),
 		Handle:    cmd.FullName(),
 		Cmd:       cmd.String(),
 		Err:       err,
@@ -57,7 +56,7 @@ func (t *telescope) AfterProcessPipeline(ctx context.Context, cmds []redis.Cmder
 			err = nil
 		}
 		ts.AppendRedis(&tel.Redis{
-			Timestamp: util.Time.NowMicrosecondString(),
+			Timestamp: timeutil.NowMicrosecondString(),
 			Handle:    cmds[i].FullName(),
 			Cmd:       cmds[i].String(),
 			Err:       err,

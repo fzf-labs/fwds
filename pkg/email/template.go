@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"fwds/internal/conf"
 	"html/template"
-	"io/ioutil"
+	"os"
 	"time"
 
 	"fwds/pkg/log"
@@ -37,7 +37,6 @@ func NewActivationHTMLEmail(username, activateURL string) (subject string, body 
 
 // VerificationCodeData
 // @Description: 邮件验证码
-//
 type VerificationCodeData struct {
 	HomeURL       string `json:"home_url"`
 	WebsiteName   string `json:"website_name"`
@@ -114,7 +113,7 @@ func NewNotifyMailData(jumpURL string, greeting string, intro string, outro stri
 
 // getEmailHTMLContent 获取邮件模板
 func getEmailHTMLContent(tplPath string, mailData interface{}) string {
-	b, err := ioutil.ReadFile(tplPath)
+	b, err := os.ReadFile(tplPath)
 	if err != nil {
 		log.SugaredLogger.Warnf("[util.email] read file err: %v", err)
 		return ""

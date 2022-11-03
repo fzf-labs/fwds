@@ -2,7 +2,7 @@ package response
 
 import (
 	"fwds/internal/errno"
-	"fwds/pkg/util"
+	"fwds/pkg/util/ginutil"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +22,7 @@ func Json(c *gin.Context, err errno.Error, data interface{}) {
 	}
 	jsonResponse := JsonResponse{
 		Code: err.GetBusinessCode(),
-		Msg:  err.GetMessage(util.Gin.Lang(c)),
+		Msg:  err.GetMessage(ginutil.Lang(c)),
 		Data: data,
 	}
 	if err.GetErr() != nil {

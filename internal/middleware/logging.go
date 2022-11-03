@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fwds/pkg/log"
 	"go.uber.org/zap"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"time"
@@ -50,7 +50,7 @@ func Logging() gin.HandlerFunc {
 		}
 		rawData, _ := c.GetRawData()
 		// Restore the io.ReadCloser to its original state
-		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(rawData))
+		c.Request.Body = io.NopCloser(bytes.NewBuffer(rawData))
 
 		t := telescope.GetTelescope(c)
 		//请求记录

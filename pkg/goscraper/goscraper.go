@@ -328,8 +328,6 @@ func (scraper *Scraper) parseDocument(doc *Document) error {
 		}
 
 	}
-
-	return nil
 }
 
 func avoidByte(b byte) bool {

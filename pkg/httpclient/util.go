@@ -5,7 +5,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fwds/pkg/telescope"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"time"
@@ -74,7 +74,7 @@ func doHTTP(ctx context.Context, method, url string, payload []byte, opt *option
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		err = errors.Wrapf(err, "read resp body from [%s %s] err", method, url)
 		if opt.dialog != nil {

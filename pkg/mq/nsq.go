@@ -129,7 +129,6 @@ func (n *NSQ) do(b *Business, handle Handle) {
 	if err != nil {
 		return
 	}
-	return
 }
 
 func (n *NSQ) GetTopic(b *Business) string {
@@ -139,7 +138,7 @@ func (n *NSQ) GetChannel(b *Business) string {
 	return b.Tag
 }
 
-//获取nsqd的节点信息
+// 获取nsqd的节点信息
 func (n *NSQ) lookupToNodes() []string {
 	lookups := conf.Conf.Mq.Nsq.Lookupds
 	var nodes []string

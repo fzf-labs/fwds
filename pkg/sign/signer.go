@@ -2,12 +2,11 @@ package sign
 
 import (
 	"fmt"
+	"fwds/pkg/util/strutil"
 	"net/url"
 	"sort"
 	"strconv"
 	"strings"
-
-	"fwds/pkg/util"
 )
 
 // CryptoFunc 签名加密函数
@@ -103,7 +102,7 @@ func (s *Signer) GetAppID() string {
 
 // RandNonceStr 自动生成16位随机字符串参数
 func (s *Signer) RandNonceStr() *Signer {
-	return s.SetNonceStr(util.Str.StrRandom(16))
+	return s.SetNonceStr(strutil.Random(16))
 }
 
 // SetSignBodyPrefix 设置签名字符串的前缀字符串
