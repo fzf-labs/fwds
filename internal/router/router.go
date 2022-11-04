@@ -21,7 +21,6 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.Use(middleware.Cors())        //跨域
 	g.Use(middleware.Logging())     //日志
 	g.Use(middleware.RequestID())   //请求ID记录
-	g.Use(middleware.Trace())       //链路跟踪
 	g.Use(middleware.PanicNotify()) //panic
 	g.Use(mw...)
 

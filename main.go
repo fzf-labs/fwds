@@ -109,7 +109,7 @@ func HttpService(cfg *conf.Config) {
 // 等待中断信号以超时 5 秒正常关闭服务器
 // 官方说明：https://github.com/gin-gonic/gin#graceful-restart-or-stop
 func gracefulStop(srv *http.Server) {
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	// kill 命令发送信号 syscall.SIGTERM
 	// kill -2 命令发送信号 syscall.SIGINT
 	// kill -9 命令发送信号 syscall.SIGKILL
