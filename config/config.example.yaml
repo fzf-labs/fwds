@@ -15,10 +15,7 @@ Http: # http 服务
 
 Mysql:
   Default: # 默认库
-    Name: fwds                      # 数据库名称
-    Addr: localhost:3306            # 如果是 docker,可以替换为 对应的服务名称，eg: db:3306
-    UserName: root                  # 数据库账户名
-    Password: 123456                # 数据库密码
+    DSN: root:123456@tcp(127.0.0.1:3306)/fwds?charset=utf8mb4&loc=Asia%2FShanghai&parseTime=true
     ShowLog: true                   # 是否打印SQL日志
     MaxIdleConn: 10                 # 最大闲置的连接数，0意味着使用默认的大小2， 小于0表示不使用连接池
     MaxOpenConn: 60                 # 最大打开的连接数, 需要小于数据库配置中的max_connections数

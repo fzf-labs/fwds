@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"fwds/internal/conf"
 	"gorm.io/gorm/schema"
 
@@ -57,18 +56,9 @@ func GetWriteDB() *gorm.DB {
 }
 
 func NewMySQL(cfg *conf.MysqlConfig) *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=%t&loc=%s",
-		cfg.UserName,
-		cfg.Password,
-		cfg.Addr,
-		cfg.Name,
-		true,
-		//"Asia/Shanghai"),
-		"Local")
-
-	sqlDB, err := sql.Open("mysql", dsn)
+	sqlDB, err := sql.Open("mysql", cfg.DSN)
 	if err != nil {
-		log.SugaredLogger.Panicf("open mysql failed. database name: %s, err: %+v", cfg.Name, err)
+		log.SugaredLogger.Panicf("open mysql failed,err: %+v", err)
 	}
 	// set for db connection
 	// 用于设置最大打开的连接数，默认值为0表示不限制.设置最大的连接数，可以避免并发太高导致连接mysql出现too many connections的错误。
@@ -81,8 +71,8 @@ func NewMySQL(cfg *conf.MysqlConfig) *gorm.DB {
 		NamingStrategy: schema.NamingStrategy{SingularTable: true},
 	})
 	if err != nil {
-		log.SugaredLogger.Info(dsn)
-		log.SugaredLogger.Panicf("database connection failed. database name: %s, err: %+v", cfg.Name, err)
+		log.SugaredLogger.Info(cfg.DSN)
+		log.SugaredLogger.Panicf("database connection failed, err: %+v", err)
 	}
 	db.Set("gorm:table_options", "CHARSET=utf8mb4")
 

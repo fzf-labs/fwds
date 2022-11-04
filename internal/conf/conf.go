@@ -94,10 +94,7 @@ type MysqlConfigs map[string]MysqlConfig
 // MysqlConfig
 // @Description: mysql配置
 type MysqlConfig struct {
-	Name            string        `json:"name,omitempty"`
-	Addr            string        `json:"addr,omitempty"`
-	UserName        string        `json:"user_name,omitempty"`
-	Password        string        `json:"password,omitempty"`
+	DSN             string        `json:"dsn,omitempty"`
 	ShowLog         bool          `json:"show_log,omitempty"`
 	MaxIdleConn     int           `json:"max_idle_conn,omitempty"`
 	MaxOpenConn     int           `json:"max_open_conn,omitempty"`
